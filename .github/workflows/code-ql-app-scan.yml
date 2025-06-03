@@ -1,0 +1,29 @@
+# gha prep
+
+name: "CodeQL app scan"
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 14 * * 1' # scheduled to run every monday at 14:00 UTC
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    name: analyze
+    runs-on: ubuntu-latest
+
+  steps:
+    - name: checkout repository
+      uses: actions/checkout@v4
+
+    - name: initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: python
+
+    - name: perform codeql analysis
+      uses: github/codeql-action/analyze@v2
